@@ -1,1 +1,45 @@
+#--------------------------------------------------------------------------------------------------------
+INTRODUCTION TO SQL
+#--------------------------------------------------------------------------------------------------------
+Standardized, interactive via GUI or prompt, or embedded in programs.
+Declarative, based on relational algebra
+
+Data Definition Language (DDL)
+  # Create table ...
+  # drop table ...
+  
+Data Manipulation Language (DML)
+  # select ...
+  # insert ...
+  # delete ...
+  # update ...
+
+Othe commands
+  indexes, constraints, views, triggers, transactions, aurhorization
+
+Basic SELECT clause:
+  # Select A1, A2, ..., An     # define what to return
+  # From R1, R2, ..., Rm       # choose from these relations
+  # Where conditions           # used to combine and filter
+
+DEMO RELATIONS:
+  College(cName, state, enrollment)    # cName is key
+  Student(sID, sName, GPA, sizeHS)     # sID is key
+  Apply(sID, cName, major, decision)   # {sID, cName, major} are key
+
+# select sID, sName, GPA   # condition is GPA but not necessary to include GPA
+# from Student
+# where GPA > 3.6;         # return a relation of sID, sName, and GPA of students whose GPA > 3.6
+
+# select sName, major                #
+# from Student, Apply                # from multiplee relations
+# where Student.sID = Apply.sID;     # join condition telling to combine Student relation with Apply relation (natural join). Must be explicitly stated
+                                     # will return duplicates if any. To remove duplicate, use "select distinct sName, major" instead of "select sName, major"
+
+
+
+
+
+
+
 
