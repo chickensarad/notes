@@ -42,11 +42,46 @@ RELATIONAL MODEL
 #--------------------------------------------------------------------------------------------------------
 simple efficient implementations. Query with high-level languages.
 
-Database = set of _named_ RELATIONS *(relations == tables)
-each relation has a set of _named_ ATTRIBUTES *(attributes == columns)
-each TUPLE has a valur for each attribute *(tuple = row)
+Database:
+  set of _named_ RELATIONS *(relations == tables)
+  each relation has a set of _named_ ATTRIBUTES *(attributes == columns)
+  each TUPLE has a value for each attribute *(tuple = row)
+  each attibute has a TYPE (aka DOMAIN)
+  * special type NULL - unknown or undefined
+    ex: relation = Student
+        attributes = {ID, name, GPA, photo}
+        types = {int, str, float, .jpg}
 
+Schema: 
+  structural description of relations in database
+Instance: 
+  actual contents at given points in time
+schema is setup ahead of time and instances are updated over time
+
+Key:
+  - attribute whose value is unique in each tuple
+  - ex:
+      ID in Student
+      name+state in College (because there can be multiple schools of the same name but not in the same state)
+  - used to identify specific instance
+  - database systems build special index structures or store database in a particular way for efficiency
+
+#CREATING RELATIONS IN SQL:
+#  Create Table Student(ID, name, GPA, photo)                              # create a relation titled Student with attributes ID, name, GPA, and photo 
+#  Create Table College(name string, state char(2), enrollment integer)    # create a relation titled College with attributes name, state, and enrollment. Each attribute is assigned a type
 
 #--------------------------------------------------------------------------------------------------------
 QUERYING RELATIONAL DATABASES
 #--------------------------------------------------------------------------------------------------------
+Steps in creating + using relational database:
+  1. design schema, create using DDL
+  2. "bulk load" initial data
+  3. execute queries and modifications (repeat this step)
+Ad-hoc queries in high-level languages:
+  ad-hoc: queries can be posed in short forms, no need to write long programs for specific queries.
+  high-level: languages supported by relational systems can be written in compact fashion. No need to write algorithms for making the queries
+Some queries are easy to pose. Some queries are easy to execute efficiently. No correlation. Query languages can be used to modify data
+
+
+
+
