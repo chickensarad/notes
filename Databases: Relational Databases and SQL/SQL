@@ -32,7 +32,7 @@ DEMO RELATIONS:
 # where GPA > 3.6;         # return a relation of sID, sName, and GPA of students whose GPA > 3.6
 
 # select sName, major                #
-# from Student, Apply                # from multiplee relations
+# from Student, Apply                # from multiple relations
 # where Student.sID = Apply.sID;     # join condition telling to combine Student relation with Apply relation (natural join). Must be explicitly stated
                                      # will return duplicates if any. To remove duplicate, use "select distinct sName, major" instead of "select sName, major"
 
