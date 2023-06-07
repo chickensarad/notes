@@ -86,7 +86,7 @@ Query languages(DML) can be used to modify data
 
 relational algebra:
   formal language
- SQL:
+SQL:
   implementation of relational algebra
 
 
