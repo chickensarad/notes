@@ -80,8 +80,13 @@ Steps in creating + using relational database:
 Ad-hoc queries in high-level languages:
   ad-hoc: queries can be posed in short forms, no need to write long programs for specific queries.
   high-level: languages supported by relational systems can be written in compact fashion. No need to write algorithms for making the queries
-Some queries are easy to pose. Some queries are easy to execute efficiently. No correlation. Query languages can be used to modify data
+Some queries are easy to pose. Some queries are easy to execute efficiently. No correlation. 
+Query languages(DML) can be used to modify data
+* Queries return RELATIONS ("compositional" or "closed" - same type of return obj as query). Can make another query to the returned relations
 
-
+relational algebra:
+  formal language
+ SQL:
+  implementation of relational algebra
 
 
