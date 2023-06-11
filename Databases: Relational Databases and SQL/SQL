@@ -102,26 +102,62 @@ Set operators:
   2. Intersect
   3. Except
 
-# select Student.sID, sName, GPA, Apply.cName, enrollment          # same as previously seen
-# from  Student, College, Apply                                    # 
-# whee Apply.sID = Student.sID and Apply.cName = College.cName;    # 
+Using table variables
+  # select Student.sID, sName, GPA, Apply.cName, enrollment          # same as previously seen
+  # from  Student, College, Apply                                    # 
+  # whee Apply.sID = Student.sID and Apply.cName = College.cName;    # 
+  
+  # select S.sID, sName, GPA, A.cName, enrollment    # 
+  # from  Student S, College C, Apply A              # achieves the same results. relations have been renamed for readability
+  # whee A.sID = S.sID and A.cName = C.cName;        # 
+  
+  # select S1.sID, S1.sName, S1.GPA, S1.sID, S2.sName, S2.GPA    # returns all pairs of students who have the same GPA including pairs of same students
+  # from  Student S1, Student S2                                 # 
+  # whee S1.GPA = S2.GPA;                                        # 
+  
+  # select S1.sID, S1.sName, S1.GPA, S1.sID, S2.sName, S2.GPA    # 
+  # from  Student S1, Student S2                                 # 
+  # whee S1.GPA = S2.GPA and S1.sID <> S2.sID;                   # "S1.sID <> S2.sID" means S1.sID and S2.sID are different. This will still return 2 of the same pairs ex) "Amy and Bob" and "Bob and Amy"
+  
+  # select S1.sID, S1.sName, S1.GPA, S1.sID, S2.sName, S2.GPA    # 
+  # from  Student S1, Student S2                                 # 
+  # whee S1.GPA = S2.GPA and S1.sID < S2.sID;                    # Now only returns one of each unique pair
 
-# select S.sID, sName, GPA, A.cName, enrollment    # 
-# from  Student S, College C, Apply A              # achieves the same results. relations have been renamed for readability
-# whee A.sID = S.sID and A.cName = C.cName;        # 
+Using set operators
+  Union operator
+    # select cName from College   # retrurns all college names and student names in one attribute. cName came first so all data shown under attribute cName
+    # union                       #
+    # select sName from Student;  #
+    
+    # select cName as name from College   # all tuples go under attribnute "name" now
+    # union                               #
+    # select sName as name from Student;  #
+    
+    Union operator by default removes duplicates. SQLite removes duplicates by sorting results then removing duplicates
+    # select cName as name from College   # 
+    # union all                           # now shows duplicates. Also not sorted anymore since not going through sorting/removing duplicate
+    # select sName as name from Student;  #
 
-# select S1.sID, S1.sName, S1.GPA, S1.sID, S2.sName, S2.GPA    # returns all pairs of students who have the same GPA including pairs of same students
-# from  Student S1, Student S2                                 # 
-# whee S1.GPA = S2.GPA;                                        # 
-
-# select S1.sID, S1.sName, S1.GPA, S1.sID, S2.sName, S2.GPA    # 
-# from  Student S1, Student S2                                 # 
-# whee S1.GPA = S2.GPA and S1.sID <> S2.sID;                   # "S1.sID <> S2.sID" means S1.sID and S2.sID are different. This will still return 2 of the same pairs ex) "Amy and Bob" and "Bob and Amy"
-
-# select S1.sID, S1.sName, S1.GPA, S1.sID, S2.sName, S2.GPA    # 
-# from  Student S1, Student S2                                 # 
-# whee S1.GPA = S2.GPA and S1.sID < S2.sID;                    # Now only returns one of each unique pair
-
+  Intersect operator
+    # select sID from Apply where major = 'CS'    # ID of students who applied to both CS and EE
+    # intersect                                   #
+    # select sID from Apply where major = 'EE';   #
+    
+    some database systems have no intersect operator. Must write intersect as below
+    # select A1.sID
+    # from Apply A1, Apply A2
+    # where A1.sID = A2.sID and A1.major = 'CS' and A2.major = 'EE';   # this returns all pairs. can use "select distinct" to remove duplicates
+  
+  Difference operator
+    # select sID from Apply where major = 'CS'    # only ID of students who applied to CS and not EE
+    # except                                      # 
+    # select sID from Apply where major = 'EE';   # 
+    
+    some database systems also do not support except operator 
+    # select distinct A1.sID                                            # this doesn't work because it actually finds pairs of students who applied to CS and also major other than EE. This cannot be done unless using another construct (not covered yet)
+    # from Apply A1, Apply A2                                           # 
+    # where A1.sID = A2.sID and A1.major = 'CS' and A2.major <> 'EE';   # 
+    
 #--------------------------------------------------------------------------------------------------------
 SUBQUERIES IN WHERE CLAUSE
 #--------------------------------------------------------------------------------------------------------
