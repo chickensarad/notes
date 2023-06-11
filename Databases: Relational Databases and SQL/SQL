@@ -161,10 +161,28 @@ Using set operators
 #--------------------------------------------------------------------------------------------------------
 SUBQUERIES IN WHERE CLAUSE
 #--------------------------------------------------------------------------------------------------------
+Subqueries are nested select statements
 
+# select sID, sName                                          # shows ID and name of students from nested select
+# from Student                                               #
+# where sID in (select sID from Apply where major = 'CS');   # the nested select = ID of all students who applied to any CS program
 
+# select distinct Student.sID, sName                # same as previous example
+# from Student, Apply                               #
+# where Student.sID = Apply.sID and major = 'CS';   #
 
+# select sName                                               # shows ID of students who applied to any CS
+# from Student                                               #
+# where sID in (select sID from Apply where major = 'CS');   # 
 
+# select distinct sName                             # similar but results with duplicate name but different sID are removed. Can remove data that should not have been removed
+# from Student                                      #
+# where Student.sID = Apply.sID and major = 'CS';   # 
+
+# select sID, sName                                              # 
+# from Student                                                   # 
+# where sID in (select sID from Apply where major = 'CS')        # 
+#   and sID not in (select sID from Apply where major = 'EE');   # shows students who applied to CS but not EE. Could not do the difference operator without except. Now it's possible.
 
 #--------------------------------------------------------------------------------------------------------
 THE JOIN FAMILY OF OPERATORS
