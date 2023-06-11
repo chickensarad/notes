@@ -27,6 +27,9 @@ DEMO RELATIONS:
   Student(sID, sName, GPA, sizeHS)     # sID is key
   Apply(sID, cName, major, decision)   # {sID, cName, major} are key
 
+#--------------------------------------------------------------------------------------------------------
+BASIC SELECT STATEMENT
+#--------------------------------------------------------------------------------------------------------
 # select sID, sName, GPA   # condition is GPA but not necessary to include GPA
 # from Student
 # where GPA > 3.6;         # return a relation of sID, sName, and GPA of students whose GPA > 3.6
@@ -35,6 +38,61 @@ DEMO RELATIONS:
 # from Student, Apply                # from multiple relations
 # where Student.sID = Apply.sID;     # join condition telling to combine Student relation with Apply relation (natural join). Must be explicitly stated
                                      # will return duplicates if any. To remove duplicate, use "select distinct sName, major" instead of "select sName, major"
+
+# select distinct sName, major       # the "distinct only returns unique values
+# from Student, Apply                # 
+# where Student.sID = Apply.sID;     # 
+
+# select sName, GPA, decision                                    # 
+# from Student, Apply                                            # 
+# where Student.sID = Apply.sID                                  # 
+#   and sizeHS < 1000 and major = 'CS' and cname = 'Stanford';   #
+
+# select cName                                 # returns an error because both College and Apply contain cName <- ambiguous
+# from  College, Apply                         # must "select College.cName"
+# whee College.cName = Apply.cName             #
+#   and enrollment > 20000 and major = 'CS';   # 
+
+# select Student.sID, sName, GPA, Apply.cName, enrollment          # combine all 3 relations
+# from  Student, College, Apply                                    # unordered because SQL is unordered
+# whee Apply.sID = Student.sID and Apply.cName = College.cName;    #
+
+# select Student.sID, sName, GPA, Apply.cName, enrollment          # combine all 3 relations
+# from  Student, College, Apply                                    # unordered because SQL is unordered
+# whee Apply.sID = Student.sID and Apply.cName = College.cName     #
+# order by GPA desc;                                               # order by GPA in descending. If not specified, ordered by ascending by default
+
+# select Student.sID, sName, GPA, Apply.cName, enrollment          # combine all 3 relations
+# from  Student, College, Apply                                    # unordered because SQL is unordered
+# whee Apply.sID = Student.sID and Apply.cName = College.cName     #
+# order by GPA desc, enrollment;                                   # order by GPA in descending then within it order by enrollment ascending
+
+# select sID, major           #
+# from Apply                  #
+# where major like "%bio%";   # pattern matching, include all data with XXXmajorXXX. include "biology", "bioengineering", "marinebiology"
+
+# select *                    # * gets all atributes of the relation
+# from Apply                  #
+# where major like "%bio%";   # 
+
+# select *                    # get cross product, all possible combinations of Student and College
+# from Student, College;      #
+
+# select sID, sName, GPA, sizeHS, GPA*(sizeHS/1000.0)    # can add new attributes as function of other attributes. This would be a weighted GPA. 
+# from Student;                                          #
+
+# select sID, sName, GPA, sizeHS, GPA*(sizeHS/1000.0)    # can add new attributes as function of other attributes. This would be a weighted GPA. 
+# from Student;                                          #
+
+# select sID, sName, GPA, sizeHS, GPA*(sizeHS/1000.0) as scaledGPA   # renames new attribute
+# from Student;                                                      #
+
+
+
+
+
+
+
 
 
 
