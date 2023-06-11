@@ -87,16 +87,76 @@ BASIC SELECT STATEMENT
 # select sID, sName, GPA, sizeHS, GPA*(sizeHS/1000.0) as scaledGPA   # renames new attribute
 # from Student;                                                      #
 
+#--------------------------------------------------------------------------------------------------------
+TABLE VARIABLES AND SET OPERATORS
+#--------------------------------------------------------------------------------------------------------
+Table Variables serve 2 uses: 
+  1. to make queries more readable
+  2. rename relations that are used in the FROM clause, particularly when there are 2 instances of the same relation
+  # Select A1, A2, ..., An     
+  # From R1, R2, ..., Rm   <- R1, R2, ..., Rm are Table Variables.     
+  # Where conditions           
+
+Set operators:
+  1. Union
+  2. Intersect
+  3. Except
+
+# select Student.sID, sName, GPA, Apply.cName, enrollment          # same as previously seen
+# from  Student, College, Apply                                    # 
+# whee Apply.sID = Student.sID and Apply.cName = College.cName;    # 
+
+# select S.sID, sName, GPA, A.cName, enrollment    # 
+# from  Student S, College C, Apply A              # achieves the same results. relations have been renamed for readability
+# whee A.sID = S.sID and A.cName = C.cName;        # 
+
+# select S1.sID, S1.sName, S1.GPA, S1.sID, S2.sName, S2.GPA    # returns all pairs of students who have the same GPA including pairs of same students
+# from  Student S1, Student S2                                 # 
+# whee S1.GPA = S2.GPA;                                        # 
+
+# select S1.sID, S1.sName, S1.GPA, S1.sID, S2.sName, S2.GPA    # 
+# from  Student S1, Student S2                                 # 
+# whee S1.GPA = S2.GPA and S1.sID <> S2.sID;                   # "S1.sID <> S2.sID" means S1.sID and S2.sID are different. This will still return 2 of the same pairs ex) "Amy and Bob" and "Bob and Amy"
+
+# select S1.sID, S1.sName, S1.GPA, S1.sID, S2.sName, S2.GPA    # 
+# from  Student S1, Student S2                                 # 
+# whee S1.GPA = S2.GPA and S1.sID < S2.sID;                    # Now only returns one of each unique pair
+
+#--------------------------------------------------------------------------------------------------------
+SUBQUERIES IN WHERE CLAUSE
+#--------------------------------------------------------------------------------------------------------
 
 
 
 
 
+#--------------------------------------------------------------------------------------------------------
+THE JOIN FAMILY OF OPERATORS
+#--------------------------------------------------------------------------------------------------------
 
 
 
 
 
+#--------------------------------------------------------------------------------------------------------
+AGGREGATION
+#--------------------------------------------------------------------------------------------------------
+
+
+
+
+
+#--------------------------------------------------------------------------------------------------------
+NULL VARIABLES
+#--------------------------------------------------------------------------------------------------------
+
+
+
+
+
+#--------------------------------------------------------------------------------------------------------
+DATA MODIFICATION STATEMENTS
+#--------------------------------------------------------------------------------------------------------
 
 
 
