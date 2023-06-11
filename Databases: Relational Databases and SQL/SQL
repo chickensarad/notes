@@ -184,6 +184,14 @@ Subqueries are nested select statements
 # where sID in (select sID from Apply where major = 'CS')        # 
 #   and sID not in (select sID from Apply where major = 'EE');   # shows students who applied to CS but not EE. Could not do the difference operator without except. Now it's possible.
 
+* "sID not in (...)" and "not sID in (...)" have the same effect
+
+# select cName, state                         #
+# from College C1                             #
+# where exists (select * from College C2      # correlated reference: reference to C1 in subquery comes from outside of subquery
+#               where C2.state = C1.state);   #
+
+
 #--------------------------------------------------------------------------------------------------------
 THE JOIN FAMILY OF OPERATORS
 #--------------------------------------------------------------------------------------------------------
