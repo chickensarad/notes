@@ -186,11 +186,29 @@ Subqueries are nested select statements
 
 * "sID not in (...)" and "not sID in (...)" have the same effect
 
-# select cName, state                         #
-# from College C1                             #
-# where exists (select * from College C2      # correlated reference: reference to C1 in subquery comes from outside of subquery
-#               where C2.state = C1.state);   #
+Exists is used to test for existence of any record in a subquery
+  # select cName, state                                                  # shows colleges with another college in the same state
+  # from College C1                                                      #
+  # where exists (select * from College C2                               # correlated reference: reference to C1 in subquery comes from outside of subquery
+  #               where C2.state = C1.state and C1.cName <> C2.cName);   # without "C1.cName <> C2.cName" it returns all colleges because it returns self
 
+Exist can be used to find max without using max
+  # select cName                                              #
+  # from College C1                                           #
+  # where not exists (select * from College C2                #
+  #                   where C2.enrollment > C1.enrollment);   # finds the college with enrollment with no larger enrollment
+  
+  Bad example of getting max because it finds everything except min
+  # select S1.ssName, S1.GPA       
+  # from Student S1, Student S2
+  # where S1.GPA > S2.GPA;
+  
+  Using all. finds fromt Student records with GPA greater than or equal to ALL GPAs
+  # select sName, GPA
+  # from Student
+  # where GPA >= all (select GPA from Student)
+  
+  
 
 #--------------------------------------------------------------------------------------------------------
 THE JOIN FAMILY OF OPERATORS
