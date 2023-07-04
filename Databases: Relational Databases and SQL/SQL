@@ -207,8 +207,71 @@ Exist can be used to find max without using max
   # select sName, GPA
   # from Student
   # where GPA >= all (select GPA from Student)
-  
-  
+
+  incorrect use, will return nothing. Will return only if the highest GPA student is also unique GPA
+  # select sName, GPA
+  # from Student
+  # where GPA > all (select GPA from Student S2
+  #                  where S2.sID <> S1.sID);
+
+  College name of college whose enrollment is greater than enrollment of all colleges whose name is different
+  # select cName
+  # from College C1
+  # where enrollment > all (select enrollment from College C2
+  #                         where C2.cName <> C1.cName);
+
+  College name of college whose enrollment is greater than enrollment of all colleges whose name is different
+  # select cName
+  # from College C1
+  # where not enrollment <= any (select enrollment from College C2
+  #                              where C2.cName <> C1.cName);
+
+some SQL/SQLite don't support any/anyall -> just need to use exists/not exists
+
+#--------------------------------------------------------------------------------------------------------
+SUBQUERIES IN FROM AND SELECT
+#--------------------------------------------------------------------------------------------------------
+# select sID, sName, GPA, GPA*(sizeHS/1000.0) as scaledGPA
+# from Student
+# where GPA*(sizeHS/1000.0) - GPA > 1.0
+#       or GPA - GPA*(sizeHS/1000.0) > 1.0;                   # all students whose scaled GPA is 1.0 or adjusted by more than 1.0
+
+# select sID, sName, GPA, GPA*(sizeHS/1000.0) as scaledGPA
+# from Student
+# where abs(GPA*(sizeHS/1000.0) - GPA) > 1.0;                 # same as above but quicker 
+
+subquery in from clause
+# select *                                                           
+# from (select sID, sName, GPA, GPA*(sizeHS/1000.0) as scaledGPA     # this line creates a new relation including only certain attributes -> subquery in from clause
+# from Student) G
+# where abs(G.scaledGPA-GPA) > 1.0;                                  # also same as above
+
+subquery in select clause
+# select College.cName, state, GPA
+# from College, Apply, Student
+# where College.cName = Apply.cName
+#    and Apply.sID = Student.sID
+#    and GPA >= all
+#        (select GPA from STudent, Apply
+#         where Student.sID = Apply.sID
+#           and Apply.cName = College.cName)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #--------------------------------------------------------------------------------------------------------
 THE JOIN FAMILY OF OPERATORS
