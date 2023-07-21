@@ -27,6 +27,7 @@ DEMO RELATIONS:
   Student(sID, sName, GPA, sizeHS)     # sID is key
   Apply(sID, cName, major, decision)   # {sID, cName, major} are key
 
+
 #--------------------------------------------------------------------------------------------------------
 BASIC SELECT STATEMENT
 #--------------------------------------------------------------------------------------------------------
@@ -86,6 +87,7 @@ BASIC SELECT STATEMENT
 
 # select sID, sName, GPA, sizeHS, GPA*(sizeHS/1000.0) as scaledGPA   # renames new attribute
 # from Student;                                                      #
+
 
 #--------------------------------------------------------------------------------------------------------
 TABLE VARIABLES AND SET OPERATORS
@@ -157,7 +159,8 @@ Using set operators
     # select distinct A1.sID                                            # this doesn't work because it actually finds pairs of students who applied to CS and also major other than EE. This cannot be done unless using another construct (not covered yet)
     # from Apply A1, Apply A2                                           # 
     # where A1.sID = A2.sID and A1.major = 'CS' and A2.major <> 'EE';   # 
-    
+
+
 #--------------------------------------------------------------------------------------------------------
 SUBQUERIES IN WHERE CLAUSE
 #--------------------------------------------------------------------------------------------------------
@@ -228,6 +231,7 @@ Exist can be used to find max without using max
 
 some SQL/SQLite don't support any/anyall -> just need to use exists/not exists
 
+
 #--------------------------------------------------------------------------------------------------------
 SUBQUERIES IN FROM AND SELECT
 #--------------------------------------------------------------------------------------------------------
@@ -251,31 +255,78 @@ subquery in select clause
 # from College, Apply, Student
 # where College.cName = Apply.cName
 #    and Apply.sID = Student.sID
-#    and GPA >= all
-#        (select GPA from STudent, Apply
+#    and GPA >= all                              # pairs of college and applicants with highest GPA among its applicants
+#        (select GPA from Student, Apply
 #         where Student.sID = Apply.sID
-#           and Apply.cName = College.cName)
+#           and Apply.cName = College.cName);     # select 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# select cName, state
+# (select distinct GPA
+# from College, Apply, Student
+# where College.cName = Apply.cName
+#    and Apply.sID = Student.sID
+#    and GPA >= all                               
+#        (select GPA from Student, Apply
+#         where Student.sID = Apply.sID
+#           and Apply.cName = College.cName) ) as GPA
+# from College;
 
 
 #--------------------------------------------------------------------------------------------------------
 THE JOIN FAMILY OF OPERATORS
 #--------------------------------------------------------------------------------------------------------
+using explicit join
+1. inner join on condition - only cross product that satisfies a condition
+2. natural join - join of same values in a column (remove duplicate)
+3. inner join using (attrs) - like natural join but explicitly declare which attributes to use
+4. outer join - left, right, and full outer join. similar to inner join but when condition isn't met, still include but pad with null values
+all joins can be used with other operations but easier to use join
+
+# select distinct sName, major
+# from Student, Apply
+# where Student.sID = Apply.sID;      
+
+# select distinct sName, major      # same as the above query
+# from Student inner join Apply     # can drop "inner" as join by default is inner join unless otherwise stated
+# on Student.sID = Apply.sID;
+
+# select sName, GPA
+# from Student, Apply
+# where Student.sID = Apply.sID
+#    and sizeHS < 1000 and major = 'CS' and cName = 'Stanford';
+
+# select sName, GPA
+# from Student join Apply
+# on Student.sID = Apply.sID
+# where sizeHS < 1000 and major = 'CS' and cName = 'Stanford';     # can also include where clause in 'on' clause. replace 'where' with 'and' to achieve this
+
+join used to hint executer how to execute the query. by using where instead of on, know the combining relations on sID only
+
+# select Apply.sID, sName, GPA, Apply.cName, enrollment
+# from Apply, Student, College
+# where Apply.sID = Student.sID and Apply.cName = College.cName;
+
+# select Apply.sID, sName, GPA, Apply.cName, enrollment
+# from Apply join Student join College
+# on Apply.sID = Student.sID and Apply.cName = College.cName;  -> error in some systems because join can only be binary
+
+# select Apply.sID, sName, GPA, Apply.cName, enrollment
+# from (Apply join Student on Apply.sID = Student.sID) join College
+# on Apply.cName = College.cName;                                       # now all joins are binary
+
+* can have different performance depending on how query is ordered because of imperfect systems not finding the optimal execution steps everytime
+
+# select distinct sName, Major
+# from Student natural join Apply
+~~# on Student.sID = Apply.sID;~~       <- this line not necesasry as natural join takes all 
+
+
+
+
+
+
+
+
 
 
 
